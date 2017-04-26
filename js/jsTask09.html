@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>IFE JavaScript Task08</title>
+	<style type="text/css">
+	#one{
+		width:800px;
+		height:150px;
+	}
+	.flex{
+		border: 1px solid black;
+		background-color: white;
+		padding: 5px;
+		margin: 10px;
+		display: flex;
+		flex-direction:row;
+		justify-content:space-around;
+		flex:1 1 auto;
+	}
+	</style>
+
+</head>
+<body>
+	<div id="one" class="flex">
+		one
+		<div id="two" class="flex">
+			two
+			<div id="five" class="flex">
+				five
+			</div>
+			<div id="six" class="flex">
+				six
+			</div>
+			<div id="seven" class="flex">
+				seven
+			</div>
+		</div>
+		<div id="three" class="flex">
+			three
+			<div id="eight" class="flex">
+				eight
+			</div>
+			<div id="nine" class="flex">
+				nine
+				<div id="ten" class="flex">
+					ten
+				</div>
+			</div>	
+		</div>
+		<div id="four" class="flex">
+			four
+		</div>
+	</div>
+	<input id="newnode" type="text">
+	<button id="add">添加节点</button>
+	<button id="del">删除节点</button>
+
+
+
+	<script type="text/javascript">
+	var tree = document.querySelector("#one");
+	tree.addEventListener("click",display,false);
+	var delBtn = document.querySelector("#del");
+	delBtn.addEventListener("click",del,false);
+	var addBtn = document.querySelector("#add");
+	var input = document.querySelector("#newnode");
+	addBtn.addEventListener("click",addNode,false);
+
+//获取当前点击对象，更改样式
+	function display(e) {
+		if(!e.target.style.backgroundColor) {
+		e.target.style.backgroundColor = "blue";
+		} else e.target.style.backgroundColor = "";
+	}
+//利用宽度遍历函数返回点击的节点delNode，将该节点删除
+	function del() {
+		var delNode = traverseBF(tree);
+		if(delNode) {
+			//var delNode = document.getElementById(id);//id为变量，不能加引号
+			if(delNode.parentNode) {
+				delNode.parentNode.removeChild(delNode);
+			} 
+		} else alert("请点击需要删除的节点");
+	}
+//利用宽度遍历函数返回点击的节点parent，将新创建的节点加入到parent节点中
+	 function addNode() {
+	 	var parent = traverseBF(tree);
+	 	if(parent) {
+	 		//var parent = document.getElementById(id);
+	 		var newnode = document.createElement("div");
+	 		if(input.value) {
+	 			newnode.appendChild(document.createTextNode(input.value));
+	 			newnode.setAttribute("class","flex");
+	 			newnode.setAttribute("id",input.value);
+	 			parent.appendChild(newnode);
+	 			parent.style.backgroundColor = "";
+	 		} else alert("请在输入框中输入想要添加的节点");
+	 	} else alert("请点击需要添加新节点的节点");
+	 }
+//宽度遍历树的每个节点，并判断是否为点击的节点，若是（背景颜色为蓝色），则返回该节点
+	function traverseBF(currentNode) {
+		var list = [];
+		//var order = [];
+		while(currentNode) {
+			for(var i = 0,len = currentNode.children.length; i<len; i++) {
+				list.push(currentNode.children[i]);
+			}			
+			//order.push(currentNode);
+			if(currentNode.style.backgroundColor == "blue") {
+				return currentNode;
+			} else
+			currentNode = list.shift();
+		}
+
+		// for(var i = 0, len = order.length; i < len; i++) {
+		// 	if(order[i].style.backgroundColor == "blue") {
+		// 		// console.log(order[i].getAttribute("id"));
+		// 		// console.log(order[i].style.backgroundColor);
+		// 		var id = order[i].getAttribute("id");
+		// 		return id;
+		// 	}
+		// }
+		//如果没找着到被点击的节点（背景颜色为蓝色），那么返回0
+		return 0;		
+	}
+
+
+	</script>
+</body>
+</html>
+

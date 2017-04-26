@@ -1,0 +1,118 @@
+<!-- 任务描述
+如图，模拟一个队列，队列的每个元素是一个数字，初始队列为空
+有一个input输入框，以及4个操作按钮
+
+点击"左侧入"，将input中输入的数字从左侧插入队列中；
+点击"右侧入"，将input中输入的数字从右侧插入队列中；
+点击"左侧出"，读取并删除队列左侧第一个元素，并弹窗显示元素中数值；
+点击"右侧出"，读取并删除队列又侧第一个元素，并弹窗显示元素中数值；
+点击队列中任何一个元素，则该元素会被从队列中删除 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <title>IFE JavaScript Task04</title>
+    <style type="text/css">
+    /*设置显示数字的样式*/
+    .number{
+    	float: left;
+    	width: 30px;
+    	height: 30px;
+    	background-color: red;
+    	margin:5px;
+    	text-align: center;
+    	/*line-height设置为和height相同即可实现上下居中*/
+    	line-height: 30px; 
+    	color: white;
+    }
+    </style>
+  </head>
+  <body>
+  	<input id="aqi-input" type="text">
+  	<button id="left-in">左侧入</button>
+  	<button id="right-in">右侧入</button>
+  	<button id="left-out">左侧出</button>
+  	<button id="right-out">右侧出</button>
+  	<div id="number"></div>
+
+  	<script type="text/javascript">
+  	var input = document.querySelector('input');
+  	var div = document.querySelector('#number');
+  	var leftInBtn = document.querySelector('#left-in');
+  	leftInBtn.onclick = leftIn;
+  	var rightInBtn = document.querySelector('#right-in');
+  	rightInBtn.onclick = rightIn;
+  	var leftOutBtn = document.querySelector('#left-out');
+  	leftOutBtn.addEventListener('click', leftOut);
+  	var rightOutBtn = document.querySelector('#right-out');
+  	rightOutBtn.addEventListener('click', rightOut);
+  	//利用事件委托机制，减少对子元素注册事件的数量，这样就只用对外层div父元素注册事件，相比于给子元素注册事件效率更高
+  	//若分别给每个子元素注册监听事件的话，在删除子元素时需要提前移除事件
+  	div.addEventListener('click', delNumber, false);
+  	function delNumber(event) {
+  		// 利用传入的event参数找到被点击的元素
+  		alert("The number clicked will be delete!");
+  		div.removeChild(event.target);
+  	}
+// 因为div的子节点是不断变化的，所以每次要对div的子节点进行操作都需要进行实时的查询，代码中的div.firstChild,div.lastChild不能用参数来代替
+  	function leftIn() {
+  		if(input.value) {
+  			var myDiv = document.createElement('div');
+  			myDiv.setAttribute("class", "number");
+  			myDiv.appendChild(document.createTextNode(input.value));
+  			div.insertBefore(myDiv, div.firstChild);
+  			input.value = "";//清空输入框
+  			// myDiv.addEventListener('click', delNumber);//每添加一个子元素就为该元素注册事件（点击数字时删除）
+  		}
+  		else {
+  			alert("Please input a number!");
+  		}
+  	}
+  	function rightIn() {
+  		if(input.value) {
+   			var myDiv = document.createElement('div');
+  			myDiv.setAttribute("class", "number");
+  			myDiv.appendChild(document.createTextNode(input.value));
+  			div.appendChild(myDiv); 
+  			input.value = "";
+  			// myDiv.addEventListener('click', delNumber);
+  		}
+  		else {
+  			alert("Please input a number!");
+  		}		
+  	}
+  	function leftOut() {
+  			if(div.firstChild) {
+  				// div.firstChild.removeEventListener('click', delNumber);
+  				var info = "Delete number is: " + div.firstChild.textContent;
+  				div.removeChild(div.firstChild);
+  				alert(info);
+  				input.value = "";
+  			}
+  			else {
+  				alert("Please input a number!");
+  				input.value = "";
+  			}
+  	}
+  	function rightOut() {
+  			if(div.firstChild) {
+  				// div.lastChild.removeEventListener('click', delNumber);
+  				var info = "Delete number is: " + div.lastChild.textContent;
+  				div.removeChild(div.lastChild);
+  				alert(info);
+  				input.value = "";
+  			}
+  			else {
+  				alert("Please input a number!");
+  				input.value = "";
+  			} 			
+  	}
+  	//当切换页面或卸载时，利用unload事件清除页面注册的事件，这样就可以防止在每次卸载页面时未清理干净的事件处理程序滞留在内存里，越来越多
+  	window.unload = function(event) {
+  		div.removeEventListener('click', delNumber);
+  	};
+  	</script>
+
+  </body>
+</html>

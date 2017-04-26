@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<title>IFE JavaScript Task07</title>
+	<style type="text/css">
+	.flex{
+		width:400px;
+		height:300px;
+		padding: 5px;
+		margin: 10px;
+		border: 1px solid black;
+		background-color: white;
+		display: flex;
+		flex-direction:column;
+		justify-content:space-around;
+	}
+	.flexa{
+		border: 1px solid black;
+		background-color: white;
+		padding: 5px;
+		margin: 10px;
+		display: flex;
+		flex-direction:row;
+		justify-content:space-around;
+		flex:1 1 auto;
+	}
+	</style>
+</head>
+
+<body>
+	<div id = "one" class = "flex">
+		<div id = "twoa" class = "flexa">
+			<div id = "threea" class = "flexa">
+				<div id = "foura" class = "flexa"></div>
+				<div id = "fourb" class = "flexa"></div>
+			</div>
+			<div id = "threeb" class = "flexa">
+				<div id = "fourc" class = "flexa"></div>
+				<div id = "fourd" class = "flexa"></div>
+			</div>
+		</div>
+		<div id = "twob" class = "flexa">
+			<div id = "threec" class = "flexa">
+				<div id = "foure" class = "flexa"></div>
+				<div id = "fourf" class = "flexa"></div>
+			</div>
+			<div id = "threed" class = "flexa">
+				<div id = "fourg" class = "flexa"></div>
+				<div id = "fourh" class = "flexa"></div>
+			</div>
+		</div>
+	</div>
+	<button id = "front">先序</button>
+	<button id = "middle">中序</button>
+	<button id = "back">后序</button>
+
+
+
+
+	<script type="text/javascript">
+	var frontBtn = document.querySelector("#front");
+	var middleBtn = document.querySelector("#middle");
+	var backBtn = document.querySelector("#back");
+	var flex = document.querySelector("#one");
+	//通过匿名函数向事件处理函数传递参数，每次点击按钮时就执行相应的遍历函数，得到存储顺序节点的全局变量preorder数组，然后每隔1s执行一次display函数，把数组中每个节点动态展示出来
+	frontBtn.addEventListener("click", function(){front(flex);intervalID = window.setInterval(display, 1000);}, false);
+	middleBtn.addEventListener("click", function(){middle(flex);intervalID = window.setInterval(display, 1000);}, false);
+	backBtn.addEventListener("click", function(){bck(flex);intervalID = window.setInterval(display, 1000);}, false);
+	var intervalID; 
+	var preOrder = [];
+
+
+
+	function front(node) {
+		if(node) {
+			//调用定时器函数时，会被推进任务队列中，主线程会继续执行，就意味着下面的程序会继续执行直到执行结束，执行栈才会去任务队列中按顺序查看需要执行的任务，满足定时器设定的1s时间后
+			//回调函数被加入执行栈中开始执行
+			// setTimeout(show, 1000, node);
+			// setTimeout(cancelShow, 2000, node);
+			
+			preOrder.push(node);
+			front(node.firstElementChild);
+			front(node.lastElementChild);
+		} else return;
+	}
+
+	function middle(node) {
+		if(node) {
+			
+			middle(node.firstElementChild);
+			preOrder.push(node);
+			middle(node.lastElementChild);
+		} else return;
+
+	} 
+	function bck(node) {
+		if(node) {
+			
+			bck(node.firstElementChild);
+			bck(node.lastElementChild);
+			preOrder.push(node);
+		} else return;
+
+	}
+	//当页面打开js代码加载完成后，setInterval只执行一次，并不是点击按钮就执行
+	//intervalID = window.setInterval(display, 1000);
+	function display() {
+		if(preOrder.length != 0) {
+			var colorOne = preOrder.shift();
+			if(colorOne.firstElementChild) {
+				colorOne.style.zIndex = 1;
+				colorOne.firstElementChild.style.zIndex = 2;
+				colorOne.lastElementChild.style.zIndex = 2;
+			}
+			colorOne.style.backgroundColor = "blue";
+			setTimeout(function() {colorOne.style.backgroundColor = "";},500);
+		} else clearInterval(intervalID);
+	}
+
+
+
+
+
+	// function show(node) {
+	// 	if(node.firstElementChild) {
+	// 		node.style.zIndex = 1;
+	// 		node.firstElementChild.style.zIndex = 2;
+	// 		node.lastElementChild.style.zIndex = 2;
+	// 	}
+	// 	node.style.backgroundColor = "blue";
+	// }
+	// function cancelShow(node) {
+	// 	node.style.backgroundColor = "";
+	// 	node.style.zIndex = 0;
+	// 	if(node.firstElementChild) {
+	// 		node.firstElementChild.style.zIndex = 0;
+	// 		node.lastElementChild.style.zIndex = 0;
+	// 	}
+	// }
+
+
+	</script>
+</body>
+</html>

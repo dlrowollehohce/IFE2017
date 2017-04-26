@@ -1,0 +1,199 @@
+<!-- 任务描述
+基于上一任务
+限制输入的数字在10-100
+队列元素数量最多限制为60个，当超过60个时，添加元素时alert出提示
+队列展现方式变化如图，直接用高度表示数字大小
+实现一个简单的排序功能，如冒泡排序（不限制具体算法），用可视化的方法表达出来，参考见下方参考资料 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <title>IFE JavaScript Task05</title>
+    <style type="text/css">
+    /*设置显示数字的样式*/
+    .number{
+      /*用display和vertical－align代替float实现所有添加的div底部对齐*/
+      display: inline-block;
+      vertical-align: text-bottom;
+      width: 30px;
+      background-color: red;
+      margin:5px;
+      text-align: center;
+      /*line-height设置为和height相同即可实现上下居中*/
+
+      color: white;
+    }
+
+    
+    </style>
+  </head>
+  <body>
+    <input id="aqi-input" type="text">
+    <button id="left-in">左侧入</button>
+    <button id="right-in">右侧入</button>
+    <button id="left-out">左侧出</button>
+    <button id="right-out">右侧出</button>
+    <div id="myNumber"></div>
+    <button id="sort">排序</button>
+
+    <script type="text/javascript">
+    var input = document.querySelector('input');
+    var div = document.querySelector('#myNumber');
+    var leftInBtn = document.querySelector('#left-in');
+    leftInBtn.onclick = leftIn;
+    var rightInBtn = document.querySelector('#right-in');
+    rightInBtn.onclick = rightIn;
+    var leftOutBtn = document.querySelector('#left-out');
+    leftOutBtn.addEventListener('click', leftOut);
+    var rightOutBtn = document.querySelector('#right-out');
+    rightOutBtn.addEventListener('click', rightOut);
+    var sortBtn = document.querySelector('#sort');
+    sortBtn.addEventListener('click', bubbleSort);
+    //count记录柱状图的数量,每次点击左右添加按钮即自动加1，点击左右弹出按钮和柱状图时自动减1，这样比每次访问dom查询childNode要优化很多
+    var count = 0;
+
+    //利用事件委托机制，减少对子元素注册事件的数量，这样就只用对外层div父元素注册事件，相比于给子元素注册事件效率更高
+    //若分别给每个子元素注册监听事件的话，在删除子元素时需要提前移除事件
+    div.addEventListener('click', delNumber, false);
+    function delNumber(event) {
+      count--;
+      // 利用传入的event参数找到被点击的元素
+      alert("The number clicked will be delete! The count of number is" + count);
+      div.removeChild(event.target);
+    }
+// 因为div的子节点是不断变化的，所以每次要对div的子节点进行操作都需要进行实时的查询，代码中的div.firstChild,div.lastChild不能用参数来代替
+    function leftIn() {
+      if(input.value > 10 && input.value < 60 && count < 60) {
+        var myDiv = document.createElement('div');
+        myDiv.setAttribute("class", "number");
+        myDiv.style.height = input.value;
+        myDiv.style.lineHeight = input.value;
+        myDiv.appendChild(document.createTextNode(input.value));
+        div.insertBefore(myDiv, div.firstChild);
+        input.value = "";//清空输入框
+        count++;
+        
+        // myDiv.addEventListener('click', delNumber);//每添加一个子元素就为该元素注册事件（点击数字时删除）
+      }
+      else if(count >= 60){
+        alert("Enough");
+        input.value = ""; 
+      }
+      else {
+        alert("Please input a number between 10-60!");
+        input.value = "";
+      }
+    }
+    function rightIn() {
+      if(input.value > 10 && input.value < 60 && count < 60) {
+        var myDiv = document.createElement('div');
+        myDiv.setAttribute("class", "number");
+        myDiv.style.height = input.value;
+        myDiv.style.lineHeight = input.value;
+        myDiv.appendChild(document.createTextNode(input.value));
+        div.appendChild(myDiv); 
+        input.value = "";
+        count++;
+        
+        // myDiv.addEventListener('click', delNumber);
+      }
+      else if(count >= 60){
+        alert("Enough");
+        input.value = ""; 
+      }
+      else {
+        alert("Please input a number between 10-60!");
+        input.value="";      
+      }   
+    }
+    function leftOut() {
+        if(div.firstChild) {
+          count--;
+          // div.firstChild.removeEventListener('click', delNumber);
+          var info = "Delete number is: " + div.firstChild.textContent;
+          div.removeChild(div.firstChild);
+          alert(info + "The count of number is " + count);
+          input.value = "";  
+        }
+        else {
+          alert("Please input a number!");
+          input.value = "";
+        }
+    }
+    function rightOut() {
+        if(div.firstChild) {
+          count--;
+          // div.lastChild.removeEventListener('click', delNumber);
+          var info = "Delete number is: " + div.lastChild.textContent;
+          div.removeChild(div.lastChild);
+          alert(info + "The count of number is " + count);
+          input.value = "";
+
+        }
+        else {
+          alert("Please input a number!");
+          input.value = "";
+        }       
+    }
+    //当切换页面或卸载时，利用unload事件清除页面注册的事件，这样就可以防止在每次卸载页面时未清理干净的事件处理程序滞留在内存里，越来越多
+    window.unload = function(event) {
+      div.removeEventListener('click', delNumber);
+      sortBtn.removeEventListener('click', bubbleSort);
+    };
+
+    function bubbleSort() {
+      var temp, i, j;
+      var len = div.childNodes.length;
+      //点击排序按钮时，childNodes为固定不变的，为减少对nodelist的访问，将childNodes的长度存储在变量len中，并将每个child节点的高度统一按顺序存储在一个数组变量list中
+      //以便在排序时减少对nodelist的访问，最后通过for循环一次性将排序好的数组复给childNodes，显示出来
+      var list = [];
+      //snapshot是数组的数组，存储每一步排序后的list数组，之后将snapshot的子元素按顺序按一定时间间隔显示出来，实现排序的可视化
+      var snapshot = [];
+      for(i = 0; i < len; i++) {
+        list.push(div.childNodes[i].textContent);
+      }
+      for(i = 0; i < len; i++) {
+        for(j = 0; j < (len-1-i); j++) {
+          if(list[j] > list[j+1]) {
+            temp = list[j];
+            list[j] = list[j+1];
+            list[j+1] = temp;
+          }
+          //list是一个对象，对某块内存的引用，如果直接snapshot.push(list)，snapshot里保存的的元素都是对该内存的引用，都是拍完序的结果
+          //所以用临时变量tmp深拷贝当前的list，每次循环都生成一个新的临时变量tmp
+          var tmp = list.concat();
+          snapshot.push(tmp);
+        }
+      }
+      //每500毫秒停下来执行display函数，一直重复直到清除辨识符intervalID
+      var intervalID = window.setInterval(display, 500);
+      function display() {
+        if(snapshot.length != 0) {
+          list = snapshot.shift();
+          for(j = 0; j < len; j++) {
+            div.childNodes[j].style.height = list[j];
+            div.childNodes[j].style.lineHeight = list[j];
+            div.childNodes[j].textContent = list[j];
+          }
+        } else {
+            clearInterval(intervalID);
+          }
+      }
+
+    }
+      // for(i = 0; i < len; i++) {
+      //   for(j = 0; j < (len-1-i); j++) {
+      //              if(div.childNodes[j].textContent > div.childNodes[j+1].textContent) {
+      //         temp = div.childNodes[j].textContent;
+      //         div.childNodes[j].textContent = div.childNodes[j+1].textContent;
+      //         div.childNodes[j+1].textContent = temp;
+      //       }
+      //   }
+      // }
+    
+
+
+    </script>
+
+  </body>
+</html>

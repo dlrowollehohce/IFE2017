@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>IFE JavaScript Task08</title>
+	<style type="text/css">
+	#one{
+		width:800px;
+		height:150px;
+	}
+	.flex{
+		border: 1px solid black;
+		background-color: white;
+		padding: 5px;
+		margin: 10px;
+		display: flex;
+		flex-direction:row;
+		justify-content:space-around;
+		flex:1 1 auto;
+	}
+	</style>
+
+</head>
+<body>
+	<div id="one" class="flex">
+		one
+		<div id="two" class="flex">
+			two
+			<div id="five" class="flex">
+				five
+			</div>
+			<div id="six" class="flex">
+				six
+			</div>
+			<div id="seven" class="flex">
+				seven
+			</div>
+		</div>
+		<div id="three" class="flex">
+			three
+			<div id="eight" class="flex">
+				eight
+			</div>
+			<div id="nine" class="flex">
+				nine
+				<div id="ten" class="flex">
+					ten
+				</div>
+			</div>	
+		</div>
+		<div id="four" class="flex">
+			four
+		</div>
+	</div>
+
+	<input id="key" type="text" >
+	<button id="sea">查找</button>
+	<button id="traverseDF">深度遍历</button>
+	<button id="traverseBF">广度遍历</button>
+
+	<script type="text/javascript">
+
+	var dfBtn = document.querySelector("#traverseDF");
+	var bfBtn = document.querySelector("#traverseBF");
+	var srhBtn = document.querySelector("#sea");
+	var treeNode = document.querySelector("#one");
+	var input = document.querySelector("#key");
+	
+
+
+	var order = [];
+	var intervalID;
+	dfBtn.addEventListener("click",function(){traverseDF(treeNode);intervalID = window.setInterval(display, 1000);},false);
+	bfBtn.addEventListener("click",function(){traverseBF(treeNode);intervalID = window.setInterval(display, 1000);},false);
+	srhBtn.addEventListener("click",sea,false);
+ 	function traverseDF (currentNode) {
+		//若for内的i不加var，i不会自加加
+		for(var i = 0,len = currentNode.children.length; i<len; i++){
+			//alert(i);
+			traverseDF(currentNode.children[i]);
+		}
+		order.push(currentNode);
+	}
+
+
+	function traverseBF(currentNode) {
+		var list = [];
+		while(currentNode) {
+			for(var i = 0,len = currentNode.children.length; i<len; i++) {
+				list.push(currentNode.children[i]);
+			}
+			order.push(currentNode);
+			currentNode = list.shift();
+		}		
+	}
+
+	function display() {
+		if(order.length != 0){
+			var color = order.shift();
+			color.style.zIndex = 1;
+			for(var i = 0,len = color.children.length;i<len;i++){
+				color.children[i].style.zIndex = 2;
+			}
+			color.style.backgroundColor = "blue";
+			setTimeout(function(){color.style.backgroundColor = "";}, 500);
+		} else clearInterval(intervalID);
+	}
+
+// 	function sleep(ms) {
+//   		return new Promise(resolve => setTimeout(resolve, ms));
+// 	}
+// async function display(currentNode) {
+// 	if(currentNode) {
+// 		currentNode.style.zIndex = 1;
+// 		for(var i = 1,len = currentNode.children.length; i<len; i++) {
+// 			currentNode.style.zIndex = 2;
+// 		}
+// 		currentNode.style.backgroundColor = "blue";
+// 	}
+//   	await sleep(1000);
+// 	currentNode.style.backgroundColor = "";
+// }
+	function sea() {
+		
+		if(input.value) {
+			traverseBF(treeNode);
+			intervalID = window.setInterval(fid,1000);
+		} else alert("请输入");
+	}
+	function fid() {
+		if(order.length != 0){
+			var color = order.shift();
+			color.style.zIndex = 1;
+			for(var i = 0,len = color.children.length;i<len;i++){
+				color.children[i].style.zIndex = 2;
+			}
+			color.style.backgroundColor = "blue";
+			setTimeout(function(){color.style.backgroundColor = "";}, 500);
+			
+		//color节点包含一个文本节点和其余的文本节点，childNodes可以获取到color节点的所有类型的节点，children只包含element子节点，不包含文本节点
+		//childNodes[0].data返回文本节点的内容（包含html代码中的空格）,调用trim函数，去除文本内容的头部和尾部的空格
+			if(color.childNodes[0].data.trim() === input.value) {
+				//该节点不是元素节点，不能应用style样式
+				//color.childNodes[0].style.color = "red";
+				alert("查找成功");
+				clearInterval(intervalID);
+
+			}
+			
+		} else clearInterval(intervalID);
+	}
+
+
+
+
+
+
+
+
+	
+	</script>
+
+</body>
+</html>

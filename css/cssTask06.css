@@ -1,0 +1,343 @@
+.container{
+	width: 980px;
+	height: 1386px;
+	margin: 0 auto;
+}
+.head{
+	border-bottom: 2px solid #938E8C;
+	width: 892px;
+	overflow: hidden;
+}
+.head div:first-child{
+	width: 110px;
+	height: 61px;
+	background-color:#A52A2A;
+	color: white;
+	font-size: 12px;
+	display: table;
+	float: left;
+}
+.head span{
+	vertical-align: bottom;
+	display: table-cell;
+	font-family: SimHei,monospace;
+}
+.head div+div{
+	direction: rtl;
+	color: #D45D5C;
+	font-size: 12px;
+	float: right;
+	width: 110px;
+	height: 60px;
+	display: table;
+}
+.firstrow .left::after{
+	content:"";
+	display: block;
+	clear: both;
+}
+.firstrow .left{
+	width: 641px;
+}
+.ab{
+	background-image: url(pic.jpg);
+	width: 641px;
+	height: 301px;	
+	margin-top: 30px;
+	position: relative;
+	/*background: linear-gradient(to right ,rgba(46,139,87,0.6) 30%,rgba(46,139,87,0)),url(pic.jpg);*/
+}
+.a{
+	width: 191px;
+	height: 301px;
+	background-color: rgba(46,139,87,0.6);
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.b{
+	width: 191px;
+	height: 301px;
+	background-color: rgba(165,42,42,0.6);
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+.firstrow .left > div:nth-child(2){
+	width: 40%;
+	float: left;
+	padding: 30px 8px 20px 0px;
+	font-size: 12px;
+	font-family:Microsoft YaHei,monospace;
+	color: #767777;
+	line-height: 16px;
+}
+.firstrow .left > div:nth-child(3){
+	float: right;
+	width: 30%;
+	padding: 30px 8px 20px 8px;
+	font-size: 12px;
+	font-family:Microsoft YaHei,monospace;
+	color: #767777;
+	line-height: 16px;
+	opacity: 0.7;
+}
+.firstrow .left > div:nth-child(4){
+	width: 30%;
+	padding: 30px 8px 20px 8px;
+	margin-left: 40%;
+	margin-right: 30%;
+	font-size: 12px;
+	font-family: Microsoft YaHei,monospace;
+	color: #231815;
+	line-height: 16px;
+	opacity: 0.7;
+}
+.firstrow h3{
+	text-decoration: underline;
+	font-size: 16px;
+	font-weight: bold;
+}
+.firstrow .left > div:nth-child(2) h3{
+	color: #418C59;
+}
+.firstrow .left > div:nth-child(3) h3{
+	color: #CC7680;
+}
+.firstrow .left > div:nth-child(4) h3{
+	color: #D2994F;
+}
+.firstrow .left > div:nth-child(3) ul{
+	list-style-type: none;
+}
+.firstrow .left > div:nth-child(3) ul span{
+	color: #CD4A48;
+	font-style: italic;
+}
+.firstrow .right{
+	width: 203px;
+	height: 301px;
+	border-top: 2px solid #CC8091;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+.firstrow .right h2{
+	color:#000000;
+	font-size: 24px;
+	font-family: Microsoft YaHei,monospace;
+	text-decoration: underline;
+	display: table-cell;
+	vertical-align: bottom;
+}
+.firstrow .right h2 span{
+	font-size: 30px;
+}
+.firstrow .right > p{
+	font-size: 12px;
+	color: #676767;
+	font-family: KaiTi,monospace;
+	line-height: 10px;
+	margin-top: -2px;
+	font-style: italic;
+}
+.content{
+	position: relative;
+	width: 892px;
+	
+}
+.firstrow .right > span{
+	font-size: 116px;
+	color: #75B86B;
+	font-family: Microsoft YaHei,monospace; 
+	font-style: italic;
+}
+.firstrow .right > div span{
+	font-size: 55px;
+	color: #CC8091;
+	font-family: Microsoft YaHei,monospace;
+	display: block;
+	line-height: 35px;
+
+}
+.firstrow .right > div{
+	position: absolute;
+	bottom: 0px;
+}
+.index{
+	position: absolute;
+	bottom: 0px;
+	left: 100px;
+}
+.firstrow .right > div div span:nth-child(1){
+	font-size: 21px;
+	line-height: 10px;
+	color: #CC8091;
+	display: block;
+	font-family: Microsoft YaHei,monospace; 
+
+	/*margin-bottom: -20px;
+*/	
+}
+.firstrow .right > div div span+span{
+	font-size: 12px;
+	line-height: 10px;
+	color: #CC8091;
+	display: block;
+	font-family: Microsoft YaHei,monospace; 
+}
+.secondrow .left{
+	width: 415px;
+	float: left;
+}
+.secondrow{
+	overflow: hidden;
+}
+.secondrow .left div:nth-child(1){
+	border-bottom: 2px solid #11456B;
+	color: #11456B;
+	font-size: 42px;
+	font-family: SimHei;
+	font-weight: bold;
+}
+.secondrow .left div:nth-child(1) span:nth-child(1){
+	font-size: 72px;
+	color: #F5E327;
+	font-family: SimHei;
+	font-weight: bold;
+	font-style: italic;
+}
+.secondrow .left div:nth-child(1) span:nth-child(2){
+	font-size: 33px;
+	color: #11456B;
+	font-family: SimHei;
+	font-weight: bold;
+	display: block;
+	margin-bottom: 16px;
+}
+.secondrow .left div:nth-child(2){
+	font-family: SimSun;
+	font-size: 12px;
+	color: #767777;
+	
+}
+.secondrow .left div:nth-child(2) span{
+	color: #F5E327;
+	font-family: Microsoft YaHei;
+	font-size: 70px;
+	float: left;
+}
+.secondrow .left div:nth-child(2) img{
+	width: 180px;
+	float: right;
+	margin:8px 8px 8px 0px;
+}
+.secondrow .right{
+	margin-left: 430px;
+	margin-top: 10px;
+}
+.secondrow .right > div:nth-child(1){
+	background-image: url(pic.jpg);
+	width: 458px;
+	height: 275px;
+	position: relative;
+}
+.secondrow .right > div:nth-child(1) > div{
+	width: 458px;
+	height: 61px;
+	background-color: rgba(0,0,0,0.4);
+	position: absolute;
+	bottom: 0px;
+	display: flex;
+	align-items:center;
+}
+.secondrow .right > div:nth-child(1) p{
+	margin-left: 40px;
+	border-left: 3px solid #72B16A;
+	height: 44px;
+	color: #FFFFFF;
+	font-size: 26px;
+	font-family: Microsoft YaHei;
+}
+.secondrow .right > div:nth-child(1) span{
+	font-size: 12px;
+	color: #72B16A;
+	font-family: Microsoft YaHei;
+	font-style: italic;
+}
+.secondrow .right > div:nth-child(2){
+	width: 459px;
+	height: 318px;
+	background-color: #CC9933;
+		position: relative;
+}
+.secondrow .right > div:nth-child(2) ul{
+	font-size: 16px;
+	color: #5A5B5B;
+	font-family: SimSun;
+	list-style-type: square;
+	padding: 20px;
+	margin-left: 40px;
+}
+.secondrow .right > div:nth-child(2) ul span{
+	direction: rtl;
+	color: #5A5B5B;
+	font-style: italic;
+	font-size: 12px;
+	font-family: SimSun;
+}
+.cd{
+	width: 260px;
+	height: 160px;
+	background-color: #CC3300;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	display: flex;
+	align-items:center;
+}
+.cd span{
+	font-size: 110px;
+	color: #FFFFFF;
+	font-family: SimHei;
+	float: left;
+}
+.c{
+	border-left: 2px solid #FFFFFF;
+	padding-left: 5px;
+	height: 86px;
+	margin-left:5px;
+	color: #FFFFFF;
+	font-family: SimHei;
+	font-size: 12px;
+	
+}
+.foot{
+	width: 892px;
+	border-top: 1px solid #938E8C;
+	color: #D45D5C;
+	direction:rtl;
+	font-size: 12px;
+}
+.d span{
+	font-size: 72px;
+	color: #D45D5C;
+	font-family: SimHei;
+	float: left;
+	line-height: 72px;
+/*	display: table;
+
+	vertical-align: middle;
+*/}
+.d{
+	background-color:none;
+	/*line-height: 6px;*/
+	color: #5A5B5B;
+	font-size: 14px;
+	font-style: italic;
+	font-family: SimHei;
+	margin-left: 270px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+}
